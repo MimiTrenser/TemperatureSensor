@@ -76,10 +76,39 @@ thresholds, and logs any errors encountered during the process.
 
 int main(void)
 {
-    while(TRUE)
+    int8_t temperature = ZERO;
+    STATE_STATUS status;
+
+    while(1)
     {
-        printf("Reading temperature data...\n");
-        taskDelay(100);
+        status = getTemperature(&temperature);
+
+        if (status == STATUS_SUCCESS_READ)
+        {
+            status = evaluateTemperature(&temperature);
+
+            if (status == STATUS_SUCCESS)
+            {
+                printf("Evaluation successful\n");
+            }
+            else if (status == STATUS_THRESHOLD_VIOLATION)
+            {
+                logError("Temperature threshold violation");
+            }
+            else if (status == STATUS_BOUNDARY_VIOLATION)
+            {
+                logError("Temperature boundary violation");
+            }
+            else
+            {
+                logError("Temperature evaluation failed");
+            }
+        }
+        else
+        {
+            logError("Failed to read temperature");
+        }
+        taskDelay(DELAY);
     }
-}
+    return STATUS_SUCCESS;
 
