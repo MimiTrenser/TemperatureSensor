@@ -18,6 +18,6 @@ modification history ---------------
 #include "globalData.h"
 
 /* function declarations */
-STATE_STATUS logError(const char *errorMessage);
+STATE_STATUS logError(const char *message);
 
 #endif /* __INClogError */

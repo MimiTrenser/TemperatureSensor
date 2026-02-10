@@ -18,6 +18,6 @@ modification history ------------------
 #include "globalData.h"
 
 /* function declarations */
-STATE_STATUS evaluateTemperature(const int8_t *pTemp);
+STATE_STATUS evaluateTemperature(const int8_t *pTemperature);
 
 #endif /* __INCevaluateData */

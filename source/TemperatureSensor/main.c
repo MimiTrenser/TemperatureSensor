@@ -111,4 +111,5 @@ int main(void)
         taskDelay(DELAY);
     }
     return STATUS_SUCCESS;
+}
 
