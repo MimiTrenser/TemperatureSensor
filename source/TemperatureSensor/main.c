@@ -108,7 +108,9 @@ int main(void)
         {
             logError("Failed to read temperature");
         }
+        #ifndef UNIT_TEST
         taskDelay(DELAY);
+        #endif
     }
     return STATUS_SUCCESS;
 }

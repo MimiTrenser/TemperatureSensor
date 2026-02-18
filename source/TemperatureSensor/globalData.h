@@ -14,13 +14,19 @@ modification history --------------------
 #define __INCglobalData
 
 /* includes */
+#ifndef UNIT_TEST
 #include <vxWorks.h>
 #include <taskLib.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 
 /* defines */
 #define ZERO           0
+#define TEMP_LOWERBOUND        -20
+#define TEMP_UPPERBOUND        100
+#define MIN_THRESHOLD          -10
+#define MAX_THRESHOLD           70
 
 /* typedefs */
 typedef enum

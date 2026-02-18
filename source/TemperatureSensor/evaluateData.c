@@ -24,12 +24,6 @@ INCLUDE FILES: globalData.h
 #include "globalData.h"
 #include "evaluateData.h"
 
-/* defines */
-#define TEMP_LOWERBOUND        -20
-#define TEMP_UPPERBOUND        100
-#define MIN_THRESHOLD          -10
-#define MAX_THRESHOLD           70
-
 /*******************************************************************************
 *
 * evaluateTemperature - This function evaluates temperature data against 

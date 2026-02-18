@@ -1,4 +1,3 @@
-# Compiler and Flags
 CC      = wr-cc
 CFLAGS  = -rtp -static -Iinclude
 TARGET  = run.vxe
@@ -18,4 +17,3 @@ $(TARGET): $(SRC)
 
 clean:
 	rm -f $(TARGET)
-	
