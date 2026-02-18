@@ -7,6 +7,9 @@ extern "C" {
 #include "../../source/TemperatureSensor/globalData.h"
 }
 
+#define TEMP_FIVE                    5
+#define TWO                          2
+
 TEST(EvaluateTempTest_HLTC_1, NullPointer)
 {
     STATE_STATUS status = evaluateTemperature(NULL);
@@ -15,29 +18,29 @@ TEST(EvaluateTempTest_HLTC_1, NullPointer)
 
 TEST(EvaluateTempTest_HLTC_3, BoundaryViolation)
 {
-    int8_t temperature = TEMP_UPPERBOUND + 5;
+    int8_t temperature = TEMP_UPPERBOUND + TEMP_FIVE;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    temperature = TEMP_LOWERBOUND - 5; 
+    temperature = TEMP_LOWERBOUND - TEMP_FIVE; 
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 }
 
 TEST(EvaluateTempTest_HLTC_2, ThresholdViolation)
 {
-    int8_t temperature = MAX_THRESHOLD + 5;
+    int8_t temperature = MAX_THRESHOLD + TEMP_FIVE;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    temperature = MIN_THRESHOLD - 5;
+    temperature = MIN_THRESHOLD - TEMP_FIVE;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 }
 
 TEST(EvaluateTempTest_HLTC_4, Success)
 {
-    int8_t temperature = (MIN_THRESHOLD + MAX_THRESHOLD) / 2;
+    int8_t temperature = (MIN_THRESHOLD + MAX_THRESHOLD) / TWO;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 }

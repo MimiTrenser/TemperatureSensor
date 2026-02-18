@@ -7,6 +7,12 @@ extern "C" {
 #include "../../source/TemperatureSensor/globalData.h"
 }
 
+#define TEMP_TEN                     10
+#define TEMP_ONE                     1
+#define TEMP_FORTY                   40
+#define TEMP_TWENTY_EIGHT            28
+
+
 TEST(EvaluateTempTest_LLTC_1, NullPointer)
 {
     STATE_STATUS status = evaluateTemperature(NULL);
@@ -19,23 +25,23 @@ TEST(EvaluateTempTest_LLTC_2, BoundaryViolation)
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    int8_t temperature = TEMP_UPPERBOUND + 10;
+    int8_t temperature = TEMP_UPPERBOUND + TEMP_TEN;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    int8_t temperature = TEMP_UPPERBOUND + 1; // Just above the upper boundary
+    int8_t temperature = TEMP_UPPERBOUND + TEMP_ONE;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    int8_t temperature = TEMP_UPPERBOUND - 1; // Just below the upper boundary
+    int8_t temperature = TEMP_UPPERBOUND - TEMP_ONE;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    int8_t temperature = TEMP_UPPERBOUND - 40;
+    int8_t temperature = TEMP_UPPERBOUND - TEMP_FORTY;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 
-    int8_t temperature = TEMP_UPPERBOUND + 28;
+    int8_t temperature = TEMP_UPPERBOUND + TEMP_TWENTY_EIGHT;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
@@ -43,42 +49,42 @@ TEST(EvaluateTempTest_LLTC_2, BoundaryViolation)
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    temperature = TEMP_LOWERBOUND - 10;
+    temperature = TEMP_LOWERBOUND - TEMP_TEN;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    temperature = TEMP_LOWERBOUND - 1; // Just below the lower boundary
+    temperature = TEMP_LOWERBOUND - TEMP_ONE;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 
-    temperature = TEMP_LOWERBOUND + 1; // Just above the lower boundary
+    temperature = TEMP_LOWERBOUND + TEMP_ONE;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    temperature = TEMP_LOWERBOUND + 40;
+    temperature = TEMP_LOWERBOUND + TEMP_FORTY;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 
-    temperature = TEMP_LOWERBOUND - 28;
+    temperature = TEMP_LOWERBOUND - TEMP_TWENTY_EIGHT;
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_BOUNDARY_VIOLATION);
 }
 
 TEST(EvaluateTempTest_LLTC_3, ThresholdViolation)
 {
-    int8_t temperature = MAX_THRESHOLD + 10;
+    int8_t temperature = MAX_THRESHOLD + TEMP_TEN;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    int8_t temperature = MAX_THRESHOLD - 10;
+    int8_t temperature = MAX_THRESHOLD - TEMP_TEN;
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 
-    int8_t temperature = MAX_THRESHOLD + 1; // Just above the maximum threshold
+    int8_t temperature = MAX_THRESHOLD + TEMP_ONE; // Just above the maximum threshold
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    int8_t temperature = MAX_THRESHOLD + -1; // Just below the maximum threshold
+    int8_t temperature = MAX_THRESHOLD - TEMP_ONE; // Just below the maximum threshold
     STATE_STATUS status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 
@@ -86,15 +92,15 @@ TEST(EvaluateTempTest_LLTC_3, ThresholdViolation)
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    temperature = MIN_THRESHOLD + 1; // Adjusted to be just below the minimum threshold
+    temperature = MIN_THRESHOLD + TEMP_ONE; // Adjusted to be just below the minimum threshold
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 
-    temperature = MIN_THRESHOLD - 1; // Adjusted to be just above the minimum threshold
+    temperature = MIN_THRESHOLD - TEMP_ONE; // Adjusted to be just above the minimum threshold
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_THRESHOLD_VIOLATION);
 
-    temperature = MIN_THRESHOLD + 10; // Adjusted to be just below the minimum threshold
+    temperature = MIN_THRESHOLD + TEMP_TEN; // Adjusted to be just below the minimum threshold
     status = evaluateTemperature(&temperature);
     EXPECT_EQ(status, STATUS_SUCCESS);
 }
