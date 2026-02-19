@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-#include "../../source/Test/humidity.h"
-#include "../../source/Test/evaluateData.h"
-#include "../../source/Test/logError.h"
-#include "../../source/Test/globalData.h"
+#include "../../source/TemperatureSensor/temperatureSensor.h"
+#include "../../source/TemperatureSensor/evaluateData.h"
+#include "../../source/TemperatureSensor/logError.h"
+#include "../../source/TemperatureSensor/globalData.h"
 }
 
 #define TEMP_TEN                     10
@@ -122,16 +122,16 @@ TEST(EvaluateTempTest_LLTC_4, Success)
     EXPECT_EQ(status, STATUS_SUCCESS);
 }
 
-TEST(LogErrorTest_LLTC_1, NullMessage)
+TEST(LogAlarmStatusTest_LLTC_1, NullMessage)
 {
-    STATE_STATUS status = logError(NULL);
+    STATE_STATUS status = logAlarmStatus(NULL);
     EXPECT_EQ(status, STATUS_INVALID_DATA);
 }
 
-TEST(LogErrorTest_LLTC_2, ValidMessage)
+TEST(LogAlarmStatusTest_LLTC_2, ValidMessage)
 {
     const char* message = "Temperature threshold violation detected.";
-    STATE_STATUS status = logError(message);
+    STATE_STATUS status = logAlarmStatus(message);
     EXPECT_EQ(status, STATUS_SUCCESS);
 }
 

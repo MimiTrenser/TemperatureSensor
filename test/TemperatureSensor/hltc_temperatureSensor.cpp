@@ -45,16 +45,16 @@ TEST(EvaluateTempTest_HLTC_4, Success)
     EXPECT_EQ(status, STATUS_SUCCESS);
 }
 
-TEST(LogErrorTest_HLTC_1, NullMessage)
+TEST(LogAlarmStatusTest_HLTC_1, NullMessage)
 {
-    STATE_STATUS status = logError(NULL);
+    STATE_STATUS status = logAlarmStatus(NULL);
     EXPECT_EQ(status, STATUS_INVALID_DATA);
 }
 
-TEST(LogErrorTest_HLTC_2, ValidMessage)
+TEST(LogAlarmStatusTest_HLTC_2, ValidMessage)
 {
     const char* message = "Temperature threshold violation detected.";
-    STATE_STATUS status = logError(message);
+    STATE_STATUS status = logAlarmStatus(message);
     EXPECT_EQ(status, STATUS_SUCCESS);
 }
 

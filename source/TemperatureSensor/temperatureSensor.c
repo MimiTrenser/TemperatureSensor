@@ -21,12 +21,15 @@ INCLUDE FILES: globalData.h.h
 /* includes */
 #include "globalData.h"
 #include "temperatureSensor.h"
+#include "evaluateData.h"
+#include "logError.h"
 
 /* defines */
 #define RAND_MINIMUM_RANGE      -40
 #define RAND_MAXIMUM_RANGE      150
 #define RAND_MAXIMUM_RANGE      150
-#define INVALID_TEMPERATURE     1000
+#define INVALID_TEMPERATURE     127
+#define DELAY                   100
 
 /*******************************************************************************
 *
@@ -79,6 +82,48 @@ INCLUDE FILES: globalData.h.h
 * temperature and returns appropriate status codes based on the outcome of the 
 * operation.
 */
+STATE_STATUS temperatureTask()
+{
+    int8_t temperature = ZERO;
+    STATE_STATUS status = STATUS_SUCCESS;
+    STATE_STATUS readStatus = STATUS_SUCCESS;
+
+    status = getTemperature(&temperature);
+
+    if (status == STATUS_SUCCESS_READ)
+    {
+        status = evaluateTemperature(&temperature);
+
+        if (status == STATUS_SUCCESS)
+        {
+            printf("Evaluation successful\n");
+        }
+        else if (status == STATUS_THRESHOLD_VIOLATION)
+        {
+            logAlarmStatus("Temperature threshold violation");
+        }
+        else if (status == STATUS_BOUNDARY_VIOLATION)
+        {
+            logAlarmStatus("Temperature boundary violation");
+        }
+        else
+        {
+            logAlarmStatus("Temperature evaluation failed");
+        }
+        readStatus = STATUS_SUCCESS;
+    }
+    else
+    {
+        logAlarmStatus("Failed to read temperature");
+        readStatus = STATUS_READ_ERROR;
+    }
+
+    #ifndef UNIT_TEST
+    taskDelay(DELAY);
+    #endif
+
+    return readStatus;
+}
 
 STATE_STATUS getTemperature(int8_t *pTemperature)
 {

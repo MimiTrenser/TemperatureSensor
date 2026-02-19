@@ -16,7 +16,7 @@ all:
 	@echo "Building VxWorks module: $@"
 	@echo "------------------------------------------"
 	$(MAKE) -C $(SOURCE_DIR) all
-	@echo "Done"
+	@echo "Building of source artifacts done"
 
 clean:
 	@echo "------------------------------------------"

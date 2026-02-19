@@ -32,7 +32,6 @@ INCLUDE FILES: globalData.h
 #include "logError.h"
 
 /* defines */
-#define DELAY        100
 #define ZERO         0
 /*******************************************************************************
 *
@@ -76,41 +75,12 @@ thresholds, and logs any errors encountered during the process.
 
 int main(void)
 {
-    int8_t temperature = ZERO;
-    STATE_STATUS status;
-
     while(1)
     {
-        status = getTemperature(&temperature);
-
-        if (status == STATUS_SUCCESS_READ)
+        if(temperatureTask() != STATUS_SUCCESS)
         {
-            status = evaluateTemperature(&temperature);
-
-            if (status == STATUS_SUCCESS)
-            {
-                printf("Evaluation successful\n");
-            }
-            else if (status == STATUS_THRESHOLD_VIOLATION)
-            {
-                logError("Temperature threshold violation");
-            }
-            else if (status == STATUS_BOUNDARY_VIOLATION)
-            {
-                logError("Temperature boundary violation");
-            }
-            else
-            {
-                logError("Temperature evaluation failed");
-            }
+            return STATUS_READ_ERROR;
         }
-        else
-        {
-            logError("Failed to read temperature");
-        }
-        #ifndef UNIT_TEST
-        taskDelay(DELAY);
-        #endif
     }
     return STATUS_SUCCESS;
 }

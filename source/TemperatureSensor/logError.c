@@ -72,7 +72,7 @@ INCLUDE FILES: globalData.h
 * error status
 *
 */
-STATE_STATUS logError(const char *message)
+STATE_STATUS logAlarmStatus(const char *message)
 {
     STATE_STATUS status = STATUS_SUCCESS;
 

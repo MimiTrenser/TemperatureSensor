@@ -40,5 +40,6 @@ typedef enum
 } STATE_STATUS;
 
 /* function declarations */
+STATE_STATUS temperatureTask(void);
 
 #endif /* __INCglobalData */
