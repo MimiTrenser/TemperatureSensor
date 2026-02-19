@@ -32,6 +32,8 @@ $(OUTDIR)/lltc_temperatureSensor_test: $(OUTDIR)/lltc_temperatureSensor.o $(addp
 
 # Build, run both, and generate unified coverage report
 all: $(TARGETS)
+
+test: all
 	@echo "Running HLTC and LLTC tests..."
 	for t in $(TARGETS); do ./$$t; done
 	@echo "Capturing coverage..."
