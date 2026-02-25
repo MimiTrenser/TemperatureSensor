@@ -32,7 +32,6 @@ INCLUDE FILES: globalData.h
 #include "logError.h"
 
 /* defines */
-#define DELAY        100
 #define ZERO         0
 /*******************************************************************************
 *
@@ -76,10 +75,13 @@ thresholds, and logs any errors encountered during the process.
 
 int main(void)
 {
-    while(TRUE)
+    while(1)
     {
-        printf("Reading temperature data...\n");
-        taskDelay(100);
+        if(temperatureTask() != STATUS_SUCCESS)
+        {
+            return STATUS_READ_ERROR;
+        }
     }
+    return STATUS_SUCCESS;
 }
 
